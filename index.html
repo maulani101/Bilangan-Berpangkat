@@ -1,0 +1,441 @@
+# Bilangan-Berpangkat
+Jawab dong
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soal HOTS Bilangan Berpangkat</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 1rem;
+        }
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background-color: #ffffff;
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            padding: 2.5rem;
+            animation: fadeIn 0.8s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+            color: #4b5563;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 0.75rem;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+        .input-group input:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
+        }
+        .question-card {
+            background-color: #f9fafb;
+            border: 2px solid #e5e7eb;
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-top: 2rem;
+            animation: slideIn 0.6s ease-out;
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        .question-text {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #1f2937;
+        }
+        .options-list button {
+            display: block;
+            width: 100%;
+            padding: 0.75rem 1.5rem;
+            margin-bottom: 0.75rem;
+            border-radius: 0.75rem;
+            text-align: left;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            background-color: #ffffff;
+            border: 2px solid #e5e7eb;
+            color: #4b5563;
+        }
+        .options-list button:hover {
+            background-color: #e5e7eb;
+        }
+        .options-list button.selected {
+            border-color: #3b82f6;
+            background-color: #dbeafe;
+        }
+        .options-list button.correct {
+            background-color: #10b981;
+            color: white;
+            border-color: #059669;
+            animation: pulse 0.8s infinite;
+        }
+        .options-list button.incorrect {
+            background-color: #ef4444;
+            color: white;
+            border-color: #dc2626;
+            animation: shake 0.5s;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-5px); }
+            40%, 80% { transform: translateX(5px); }
+        }
+        .feedback {
+            margin-top: 1rem;
+            font-weight: 700;
+            text-align: center;
+        }
+        .feedback.correct {
+            color: #059669;
+        }
+        .feedback.incorrect {
+            color: #dc2626;
+        }
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1.5rem;
+        }
+        .navigation-buttons button {
+            padding: 0.75rem 2rem;
+            border-radius: 0.75rem;
+            font-weight: 700;
+            color: #ffffff;
+            transition: all 0.3s ease;
+        }
+        .navigation-buttons #next-button {
+            background-color: #3b82f6;
+        }
+        .navigation-buttons #next-button:disabled {
+            background-color: #93c5fd;
+            cursor: not-allowed;
+        }
+        .navigation-buttons #next-button:hover:not(:disabled) {
+            background-color: #2563eb;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.75);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            animation: modalFadeIn 0.3s ease-out;
+            backdrop-filter: blur(5px);
+        }
+        @keyframes modalFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .modal-content {
+            background-color: #ffffff;
+            padding: 2.5rem;
+            border-radius: 1.5rem;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            animation: modalPopUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        @keyframes modalPopUp {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .modal-content h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #1f2937;
+        }
+        .modal-content p {
+            font-size: 1rem;
+            color: #4b5563;
+        }
+        .modal-button {
+            padding: 0.75rem 2rem;
+            background-color: #3b82f6;
+            color: white;
+            border-radius: 0.75rem;
+            font-weight: 700;
+            transition: background-color 0.3s ease;
+            margin-top: 1.5rem;
+        }
+        .modal-button:hover {
+            background-color: #2563eb;
+        }
+    </style>
+</head>
+<body>
+
+<div id="start-screen" class="container">
+    <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">Soal HOTS Bilangan Berpangkat</h1>
+    <p class="text-center text-gray-600 mb-8">
+        Selamat datang! Silakan isi nama dan kelas Anda untuk memulai kuis. Soal ini dirancang untuk menguji pemahaman Anda secara mendalam.
+    </p>
+    <div class="input-group">
+        <label for="student-name">Nama Siswa</label>
+        <input type="text" id="student-name" placeholder="Masukkan nama Anda..." class="focus:ring-blue-500 focus:border-blue-500">
+    </div>
+    <div class="input-group">
+        <label for="student-class">Kelas</label>
+        <input type="text" id="student-class" placeholder="Masukkan kelas Anda..." class="focus:ring-blue-500 focus:border-blue-500">
+    </div>
+    <button id="start-button" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-xl shadow-lg transition transform hover:scale-105 duration-300">Mulai Kuis</button>
+</div>
+
+<div id="quiz-container" class="container hidden">
+    <div class="flex justify-between items-center mb-6">
+        <div>
+            <span class="text-sm font-semibold text-gray-500">Nama:</span> <span id="display-name" class="font-bold text-gray-800"></span>
+        </div>
+        <div>
+            <span class="text-sm font-semibold text-gray-500">Kelas:</span> <span id="display-class" class="font-bold text-gray-800"></span>
+        </div>
+    </div>
+    <h1 class="text-3xl font-bold text-center text-gray-800 mb-8">Soal HOTS Bilangan Berpangkat</h1>
+
+    <div id="question-area">
+        <!-- Soal akan dimuat di sini oleh JavaScript -->
+    </div>
+    <div class="navigation-buttons">
+        <button id="next-button" class="w-full" disabled>Soal Selanjutnya</button>
+    </div>
+</div>
+
+<div id="modal-container" class="modal hidden">
+    <div id="modal-content" class="modal-content">
+        <!-- Konten modal akan dimuat di sini -->
+    </div>
+</div>
+
+<script>
+    const questions = [
+        {
+            question: "Jika $2^{x} = 8$ dan $3^{y} = 9$, maka nilai dari $(x+y)^{2}$ adalah...",
+            options: ["4", "9", "16", "25"],
+            answer: "25"
+        },
+        {
+            question: "Sebuah bakteri membelah diri menjadi 2 setiap 15 menit. Jika awalnya ada 100 bakteri, berapa banyak bakteri setelah 3 jam?",
+            options: ["$100 \times 2^{12}$", "$100 \times 2^{8}$", "$100 \times 2^{4}$", "$100 \times 2^{3}$"],
+            answer: "$100 \times 2^{12}$"
+        },
+        {
+            question: "Tentukan nilai dari $\frac{81^{3/4} \times 27^{2/3}}{9^{1/2}}$",
+            options: ["3", "9", "27", "81"],
+            answer: "27"
+        },
+        {
+            question: "Jika $3^{a} = 2$ dan $3^{b} = 5$, maka nilai dari $3^{2a-b}$ adalah...",
+            options: ["4/5", "2/5", "5/4", "5/2"],
+            answer: "4/5"
+        },
+        {
+            question: "Diketahui persamaan $4^{x-1} = 8^{2x-1}$. Nilai dari $x$ adalah...",
+            options: ["1/4", "1/2", "1", "2"],
+            answer: "1/4"
+        }
+    ];
+
+    const startScreen = document.getElementById('start-screen');
+    const quizContainer = document.getElementById('quiz-container');
+    const startButton = document.getElementById('start-button');
+    const studentNameInput = document.getElementById('student-name');
+    const studentClassInput = document.getElementById('student-class');
+    const displayName = document.getElementById('display-name');
+    const displayClass = document.getElementById('display-class');
+    const questionArea = document.getElementById('question-area');
+    const nextButton = document.getElementById('next-button');
+    const modalContainer = document.getElementById('modal-container');
+    const modalContent = document.getElementById('modal-content');
+
+    let currentQuestionIndex = 0;
+    let selectedOption = null;
+    let correctCount = 0;
+
+    // Fungsi untuk mengunci layar penuh
+    function lockScreen() {
+        if (document.documentElement.requestFullscreen) {
+            document.documentElement.requestFullscreen();
+        } else if (document.documentElement.mozRequestFullScreen) { /* Firefox */
+            document.documentElement.mozRequestFullScreen();
+        } else if (document.documentElement.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+            document.documentElement.webkitRequestFullscreen();
+        } else if (document.documentElement.msRequestFullscreen) { /* IE/Edge */
+            document.documentElement.msRequestFullscreen();
+        }
+    }
+
+    // Mencegah siswa keluar dari mode layar penuh
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    document.addEventListener('mozfullscreenchange', handleFullscreenChange);
+    document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+    document.addEventListener('msfullscreenchange', handleFullscreenChange);
+
+    function handleFullscreenChange() {
+        if (!document.fullscreenElement && !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement) {
+            showModal("Perhatian!", "Anda tidak bisa keluar dari mode layar penuh sebelum kuis selesai. Silakan kembali ke mode layar penuh untuk melanjutkan.", "Tutup");
+        }
+    }
+
+    // Menampilkan modal
+    function showModal(title, message, buttonText) {
+        modalContent.innerHTML = `
+            <h2 class="text-xl md:text-2xl">${title}</h2>
+            <p class="mt-2 mb-4">${message}</p>
+            <button class="modal-button">${buttonText}</button>
+        `;
+        modalContainer.classList.remove('hidden');
+        document.querySelector('.modal-button').addEventListener('click', () => {
+            modalContainer.classList.add('hidden');
+            if (title === "Perhatian!") {
+                lockScreen();
+            }
+        });
+    }
+    
+    // Fungsi untuk memuat soal
+    function loadQuestion() {
+        if (currentQuestionIndex < questions.length) {
+            const q = questions[currentQuestionIndex];
+            questionArea.innerHTML = `
+                <div class="question-card">
+                    <p class="question-text">${currentQuestionIndex + 1}. ${q.question}</p>
+                    <div class="options-list">
+                        ${q.options.map((option, index) => `
+                            <button data-option="${option}">${String.fromCharCode(65 + index)}. ${option}</button>
+                        `).join('')}
+                    </div>
+                </div>
+                <div id="feedback-area" class="feedback hidden"></div>
+            `;
+            // Memproses LaTeX setelah elemen dimuat
+            if (window.MathJax) {
+                MathJax.typesetPromise([questionArea]);
+            }
+
+            selectedOption = null;
+            nextButton.disabled = true;
+
+            document.querySelectorAll('.options-list button').forEach(button => {
+                button.addEventListener('click', () => handleOptionClick(button));
+            });
+        } else {
+            // Selesai kuis
+            showResult();
+        }
+    }
+
+    // Menangani pilihan jawaban
+    function handleOptionClick(button) {
+        if (selectedOption !== null) return;
+
+        selectedOption = button.dataset.option;
+        const q = questions[currentQuestionIndex];
+        const isCorrect = selectedOption === q.answer;
+        const feedbackArea = document.getElementById('feedback-area');
+
+        // Menandai semua opsi
+        document.querySelectorAll('.options-list button').forEach(btn => {
+            if (btn.dataset.option === selectedOption) {
+                btn.classList.add(isCorrect ? 'correct' : 'incorrect');
+            }
+            if (btn.dataset.option === q.answer) {
+                btn.classList.add('correct');
+            }
+            btn.disabled = true;
+        });
+
+        if (isCorrect) {
+            correctCount++;
+            feedbackArea.textContent = "Jawaban Anda Benar!";
+            feedbackArea.classList.add('correct');
+        } else {
+            feedbackArea.textContent = "Jawaban Anda Salah. Jawaban yang benar adalah " + q.answer;
+            feedbackArea.classList.add('incorrect');
+        }
+        feedbackArea.classList.remove('hidden');
+        nextButton.disabled = false;
+    }
+
+    // Menampilkan hasil akhir
+    function showResult() {
+        quizContainer.innerHTML = `
+            <div class="text-center">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Kuis Selesai!</h2>
+                <p class="text-lg text-gray-600 mb-2">Terima kasih, <span class="font-bold">${studentNameInput.value}</span> dari kelas <span class="font-bold">${studentClassInput.value}</span>.</p>
+                <p class="text-lg text-gray-600 mb-6">Nilai Anda:</p>
+                <div class="text-6xl font-extrabold text-blue-500 mb-6">${(correctCount / questions.length) * 100}</div>
+                <p class="text-gray-500">Anda menjawab ${correctCount} dari ${questions.length} soal dengan benar.</p>
+                <button onclick="window.location.reload()" class="mt-8 bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-xl shadow-lg transition transform hover:scale-105 duration-300">Coba Lagi</button>
+            </div>
+        `;
+    }
+
+    // Event listener untuk tombol 'Mulai Kuis'
+    startButton.addEventListener('click', () => {
+        const name = studentNameInput.value.trim();
+        const studentClass = studentClassInput.value.trim();
+        if (name && studentClass) {
+            displayName.textContent = name;
+            displayClass.textContent = studentClass;
+            startScreen.classList.add('hidden');
+            quizContainer.classList.remove('hidden');
+            lockScreen(); // Mengunci layar penuh
+            loadQuestion();
+        } else {
+            alert('Mohon isi nama dan kelas Anda terlebih dahulu.');
+        }
+    });
+
+    // Event listener untuk tombol 'Soal Selanjutnya'
+    nextButton.addEventListener('click', () => {
+        currentQuestionIndex++;
+        if (currentQuestionIndex < questions.length) {
+            loadQuestion();
+        } else {
+            showResult();
+        }
+    });
+</script>
+
+<!-- Skrip untuk MathJax -->
+<script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+</body>
+</html>

@@ -1,2 +1,0 @@
-# Bilangan-Berpangkat
-Jawab dong
